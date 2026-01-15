@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<link rel="stylesheet" href="style.css">
+<style>
+fieldset{
+width: 500px;
+margin: auto;
+border: 5px solid red;
+padding: 20px;
+}
+legend{
+font-size: 30px;
+color: white;
+background-color: blue;
+padding: 7px;
+}
+#alluser{
+display: grid;
+grid-template-columns: auto auto auto auto ;
+margin-bottom: 50px;
+}
+#alluser p{
+font-size: 25px;
+color: blue;
+margin: 20px;
+text-align: center;
+}
+#alluser p:hover{
+cursor: pointer;
+color: red;
+text-decoration: underline;
+}
+
+body{
+text-align: center;
+}
+.smallinput{
+height: 30px;
+margin: 10px;
+}
+
+</style>
+
+<script> // class-11- 12
+        let userlist=[
+                    {name: "Rama", age: "40years", city:"Bangalore", edu: "McA" },
+                    {name: "Alex", age: "34years", city:"Bangalore", edu:" BcA "},
+                    {name: "Soumya", age: "38years", city:"Bangalore", edu:" BBA "},
+                    {name: "Sona", age: "29years", city:"Bangalore", edu:" BA" },
+                    {name: "Ajit", age: "44years", city:"Bangalore", edu: "BCA "},
+                    {name: "Mohit", age: "30years", city:"Bangalore", edu: "BE"} ,
+                    {name: "Rajesh", age: "35years", city:"Bangalore", edu:" MFC "}
+        ];
+    let userindex = -1
+            let edit  = (index)=>{
+                userindex = index ;
+                document.getElementById("fullname").value= userlist[index].name;
+                document.getElementById("myage").value=userlist[index].age;
+                document.getElementById("mycity").value=userlist[index].city;
+                document.getElementById("myedu").value=userlist[index].edu;
+            }
+
+    let one = ( index=0 ) =>{
+    
+        let userinfo = userlist[index];
+        let data=" ";
+        data=data + " <fieldset> " ;
+            data= data + "<legend>" + userinfo.name + "</legend>";
+            data= data + "<p>" + userinfo.age+ "</p>";
+            data= data + "<p>" + userinfo.city+ "</p>";
+            data= data + "<p>" + userinfo.edu+ "</p>";
+            data = data + "<button onclick='deluser("+index+")'>Delete</button>" ;
+            
+            data = data + "<button onclick='edit("+index+")'>Edit</button>" ;
+            data=data + "</fieldset> " ;
+            document.getElementById("container").innerHTML = data;
+    }
+    let two = ( )=>
+    {
+        let data = " "; 
+        userlist.map((user,index)=>{
+            data = data + "<p><lable  onclick='one("+ index +")'>"+ user.name + " </lable> </br><button onclick='deluser("+index+")'>Delete</button></p>" ;
+        })
+        document.getElementById("alluser").innerHTML = data;
+    }
+    let save = () =>{
+        let newuser =    {
+            name: document.getElementById("fullname").value,
+            age:document.getElementById("myage").value ,
+            city:document.getElementById("mycity").value,
+            edu:document.getElementById("myedu").value
+        };
+        if(userindex >=0 ){
+                userlist[userindex] = newuser ; // to update the value in given position in array 
+                userindex = -1 ;  //reset to default
+        } else{
+            userlist= userlist.concat(newuser);  //add new user
+        }
+        
+        two( ); //reload the list after adding new user
+        // clear fields
+        document.getElementById("fullname").value=" ";
+        document.getElementById("myage").value=" ";
+        document.getElementById("mycity").value=" ";
+        document.getElementById("myedu").value=" ";
+    }
+        const deluser =(index) =>{
+    userlist.splice(index,1);              //delete one element from given position 
+    two();            //to reload the list after delete 
+    document.getElementById("container").innerText = " "; 
+    }
+</script>
+</script>
+</head>
+<body onload="two( )">
+<h1>Object And Array or Object Add List Delete Example</h1>
+<p>
+<input type="text" placeholder="Name" id="fullname" class="smallinput">
+<input type="text" placeholder="Age" id="myage" class="smallinput">
+<input type="text" placeholder="city" id="mycity" class="smallinput">
+<input type="email" placeholder="Education" id="myedu" class="smallinput">
+<button onclick="save( )">Save</button>
+</p>
+
+<button onclick="one( )">Print 1 User Details</button>
+<button  onclick="two( )">Print All User</button>
+
+
+<section id="alluser"></section>
+
+<div id="container"></div>
+</body>
+</html>
